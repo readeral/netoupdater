@@ -1,0 +1,46 @@
+#header {
+  display: block;
+  height: 100px;
+  padding: 5px;
+  margin: 4px;
+}
+
+.main {
+  width: 100%;
+}
+
+#left {
+  display: inline-block;
+  vertical-align: top;
+  width: 38%;
+  margin: 0 1% 0 1%;
+}
+
+#right {
+  display: inline-block;
+  vertical-align: top;
+  width: 58%;
+  margin: 0 1% 0 1%;
+}
+
+.left-box {
+  height: 80px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+#your-files {
+  background-color: #f3e3e3;
+}
+#error-console {
+  background-color: #1f1f1f;
+}
+#control-panel {
+  border: 1px solid lightblue;
+}
+
+#table-box {
+  height: 500px;
+  padding: 20px;
+  background-color: #3f3e3e;
+}

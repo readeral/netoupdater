@@ -1,0 +1,11 @@
+.dropzone-colour {
+    background-color: #f3e3e3;
+}
+
+.active-colour {
+  background-color: green;
+}
+
+.reject-colour {
+  background-color: red;
+}

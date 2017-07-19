@@ -1,0 +1,12 @@
+#error-console {
+  color: #efefef;
+  height: 200px;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style: none;
+}
