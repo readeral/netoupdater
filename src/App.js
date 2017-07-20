@@ -4,30 +4,32 @@ import Drop from "./Components/Drop/Drop";
 import Console from "./Components/Console/Console";
 import Table from "./Components/Table/Table";
 import ItemUpdate from "./Components/ItemUpdate";
+import ControlPanel from "./Components/ControlPanel/ControlPanel";
 import Papa from "papaparse";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.onTestButton = this.onTestButton.bind(this);
-    this.onResultButton = this.onResultButton.bind(this);
-    this.onClearButton = this.onClearButton.bind(this);
+    this.onParse = this.onParse.bind(this);
+    this.onPreview = this.onPreview.bind(this);
+    this.onClear = this.onClear.bind(this);
     this.onDropped = this.onDropped.bind(this);
     this.onDropRejected = this.onDropRejected.bind(this);
-    this.handleFileUpload = this.handleFileUpload.bind(this);
+    this.parseFile = this.parseFile.bind(this);
     this.send = this.send.bind(this);
     this.receive = this.receive.bind(this);
     this.state = {
       tabled: [],
-      console: [],
+      console: ["View output information here"],
       keyed: [],
       items: ["SKU", "Reorder Quantity"],
       itemValues: {},
+      skus: [],
       json: []
     };
   }
 
-  onTestButton() {
+  onParse() {
     var collection = this.state.keyed.map(obj => {
       return Object.keys(obj)
         .filter(key => {
@@ -44,42 +46,69 @@ class App extends Component {
       );
       console.log(eachNewItem);
       this.setState(previousState => ({
-        json: [...previousState.json, eachNewItem]
+        json: [...previousState.json, eachNewItem],
+        skus: [...previousState.skus, value[1].SKU],
+        console: [
+          ...previousState.console,
+          "JSON object created: " + JSON.stringify(eachNewItem)
+        ]
       }));
     });
   }
 
-  onResultButton() {
-    console.log(this.state.json);
+  onPreview() {
+    if (this.state.json.length > 0) {
+      this.setState(previousState => ({
+        console: [
+          ...previousState.console,
+          "The following will be sent to server: " +
+            JSON.stringify(this.state.json)
+        ]
+      }));
+    } else {
+      this.setState(previousState => ({
+        console: [
+          ...previousState.console,
+          "No CSV file data has been parsed. Please upload a file and select Create JSON Objects"
+        ]
+      }));
+    }
     console.log(JSON.stringify(this.state.json));
-    console.log(this.state.console);
   }
 
-  onClearButton() {
+  onClear() {
     this.setState(previousState => ({
       tabled: [],
-      console: [],
+      console: ["View output information here"],
       keyed: [],
       items: ["SKU", "Reorder Quantity"],
       itemValues: {},
+      skus: [],
       json: []
     }));
   }
 
   onDropped(acceptedFile) {
     this.setState(previousState => ({
-      console: [...previousState.console, acceptedFile]
+      console: [
+        ...previousState.console,
+        [acceptedFile[0].name] + " successfully uploaded!"
+      ]
     }));
-    this.handleFileUpload(acceptedFile);
+    console.log(acceptedFile[0].name + "woo!");
+    this.parseFile(acceptedFile);
   }
 
   onDropRejected(rejectedFile) {
     this.setState(previousState => ({
-      console: [...previousState.console, rejectedFile]
+      console: [
+        ...previousState.console,
+        [rejectedFile[0].name] + " failed to be uploaded. Incorrect file type."
+      ]
     }));
   }
 
-  handleFileUpload(file) {
+  parseFile(file) {
     Papa.parse(file[0], {
       header: true,
       complete: results => {
@@ -99,30 +128,40 @@ class App extends Component {
   }
 
   send() {
-    fetch(
-      "https://cors-anywhere.herokuapp.com/" +
-        "https://www.jetblackespresso.com.au/do/WS/NetoAPI",
-      {
-        method: "POST",
-        headers: {
-          NETOAPI_ACTION: "UpdateItem",
-          NETOAPI_KEY: "7cFrlopIR9QC7tBjJOEiE3vbvLjPxJ4m",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          Item: this.state.json
+    if (this.state.json.length > 0) {
+      fetch(
+        "https://cors-anywhere.herokuapp.com/" +
+          "https://www.jetblackespresso.com.au/do/WS/NetoAPI",
+        {
+          method: "POST",
+          headers: {
+            NETOAPI_ACTION: "UpdateItem",
+            NETOAPI_KEY: "7cFrlopIR9QC7tBjJOEiE3vbvLjPxJ4m",
+            Accept: "application/json"
+          },
+          body: JSON.stringify({
+            Item: this.state.json
+          })
+        }
+      )
+        .then(function(response) {
+          return response.json();
         })
-      }
-    )
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(json) {
-        console.log("parsed json", json);
-      })
-      .catch(function(ex) {
-        console.log("parsing failed", ex);
-      });
+        .then(function(json) {
+          console.log("parsed json", json);
+        })
+        .catch(function(ex) {
+          console.log("parsing failed", ex);
+        });
+    } else {
+      console.log("no values");
+      this.setState(previousState => ({
+        console: [
+          ...previousState.console,
+          "No CSV file data has been parsed. Please upload a file and select Create JSON Objects"
+        ]
+      }));
+    }
   }
 
   receive() {
@@ -138,7 +177,7 @@ class App extends Component {
         },
         body: JSON.stringify({
           Filter: {
-            SKU: ["30569", "64494"],
+            SKU: this.state.skus,
             OutputSelector: "WarehouseQuantity"
           }
         })
@@ -161,25 +200,23 @@ class App extends Component {
         <div id="main">
           <div id="left">
             <h1>File upload</h1>
-            <h2>Only CSV is accepted</h2>
             <Drop
               onDropped={this.onDropped}
               onDropRejected={this.onDropRejected}
               console={this.state.console}
             />
             <Console console={this.state.console} />
-            <div id="control-panel" className="left-box">
-              All buttons exist here
-              <button onClick={this.send}>Update new values</button>
-              <button onClick={this.receive}>Download split CSV</button>
-              <button onClick={this.onTestButton}>Test button</button>
-              <button onClick={this.onResultButton}>Result button</button>
-              <button onClick={this.onClearButton}>CLEAR</button>
-            </div>
+            <ControlPanel
+              hasdata={this.state.keyed.length}
+              onParse={this.onParse}
+              onPreview={this.onPreview}
+              send={this.send}
+              receive={this.receive}
+              onClear={this.onClear}
+            />
           </div>
           <div id="right">
             <h1>CSV Preview</h1>
-            <h2>Please check details before hitting submit</h2>
             <Table tabled={this.state.tabled} keyed={this.state.keyed} />
           </div>
         </div>

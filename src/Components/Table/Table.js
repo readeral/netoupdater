@@ -41,7 +41,7 @@ class Table extends Component {
 
   render() {
     return (
-      <div>
+      <div id="table">
         <table id="cooltable">
           <tbody>
             {this.renderList(this.props.tabled)}
