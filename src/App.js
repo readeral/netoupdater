@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import "./App.css";
 import Drop from "./Components/Drop/Drop";
 import Console from "./Components/Console/Console";
-import Reset from "./Components/Reset/Reset";
 import Table from "./Components/Table/Table";
 import ItemUpdate from "./Components/ItemUpdate";
 import ControlPanel from "./Components/ControlPanel/ControlPanel";
+import MethodToggle from "./Components/MethodToggle/MethodToggle";
 import Papa from "papaparse";
 
 class App extends Component {
@@ -303,18 +303,21 @@ class App extends Component {
                 onDropRejected={this.onDropRejected}
                 console={this.state.console}
               />
-              <Reset hasdata={this.state.keyed.length} onClear={this.onClear} />
+              <MethodToggle
+                valueMethod={this.state.valueMethod}
+                handleChange={this.handleChange}
+              />
             </div>
             <ControlPanel
               onParse={this.onParse}
               onPreview={this.onPreview}
               send={this.send}
               receive={this.receive}
-              valueMethod={this.state.valueMethod}
-              handleChange={this.handleChange}
               inputValue={this.state.inputValue}
               handleType={this.handleType}
               waiting={this.state.waiting}
+              hasdata={this.state.keyed.length}
+              onClear={this.onClear}
             />
           </div>
           <Console console={this.state.console} />

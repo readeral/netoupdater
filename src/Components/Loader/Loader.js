@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { RadioGroup, Radio } from "react-radio-group";
 import "./Loader.css";
 
 class Loader extends Component {

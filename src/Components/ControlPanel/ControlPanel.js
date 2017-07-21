@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { RadioGroup, Radio } from "react-radio-group";
+import Reset from "../../Components/Reset/Reset";
 import Loader from "../../Components/Loader/Loader";
 import "./ControlPanel.css";
 
@@ -15,24 +15,13 @@ class ControlPanel extends Component {
             onClick={this.props.send}
             className="green {this.props.active}"
           >
-            {this.props.waiting.a == true ? <Loader /> : "Update quantity"}
+            {this.props.waiting.a === true ? <Loader /> : "Update quantity"}
           </button>
           <button onClick={this.props.receive} className="blue">
-            {this.props.waiting.b == true ? <Loader /> : "Retrieve quantity"}
+            {this.props.waiting.b === true ? <Loader /> : "Get quantity"}
           </button>
         </div>
-        <p className="small">API Update Action</p>
-        <RadioGroup
-          name="method"
-          selectedValue={this.props.valueMethod}
-          onChange={option => {
-            this.props.handleChange(option);
-          }}
-        >
-          <Radio value="increment" />Increment
-          <Radio value="set" />Set
-        </RadioGroup>
-
+        <Reset hasdata={this.props.hasdata} onClear={this.props.onClear} />
       </div>
     );
   }
