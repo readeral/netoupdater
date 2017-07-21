@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { RadioGroup, Radio } from "react-radio-group";
+import Loader from "../../Components/Loader/Loader";
 import "./ControlPanel.css";
 
 class ControlPanel extends Component {
@@ -8,13 +9,16 @@ class ControlPanel extends Component {
       <div id="control-panel">
         <div id="button-group">
           <button onClick={this.props.onPreview} className="orange">
-            Preview API data before sending
+            Preview API call
           </button>
-          <button onClick={this.props.send} className="green">
-            Update stock levels
+          <button
+            onClick={this.props.send}
+            className="green {this.props.active}"
+          >
+            {this.props.waiting.a == true ? <Loader /> : "Update quantity"}
           </button>
           <button onClick={this.props.receive} className="blue">
-            Retrieve stock levels
+            {this.props.waiting.b == true ? <Loader /> : "Retrieve quantity"}
           </button>
         </div>
         <p className="small">API Update Action</p>
