@@ -1,6 +1,6 @@
 #error-console {
   color: #efefef;
-  height: 200px;
+  height: calc(100vh - 350px);
   overflow-y: scroll;
   background-color: #1f1f1f;
   padding: 0 10px 0 10px;

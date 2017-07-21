@@ -1,11 +1,11 @@
 class ItemUpdate {
-  constructor(skuVal, OrderAmount) {
+  constructor(skuVal, OrderAmount, Method) {
     this.SKU = skuVal;
     this.WarehouseQuantity = [
       {
         WarehouseID: "1",
         Quantity: OrderAmount,
-        Action: "increment"
+        Action: Method
       }
     ];
   }

@@ -5,11 +5,12 @@ import Dropzone from "react-dropzone";
 class Drop extends Component {
   render() {
     return (
-      <div className="dropzone">
+      <div id="dropzone">
         <Dropzone
           accept="text/csv"
-          onDropAccepted={this.props.onDropped.bind(this)}
-          onDropRejected={this.props.onDropRejected.bind(this)}
+          onDrop={this.props.onDrop}
+          onDropAccepted={this.props.onDropped}
+          onDropRejected={this.props.onDropRejected}
           className="left-box dropzone-colour"
           activeClassName={"active-colour"}
           rejectClassName={"reject-colour"}

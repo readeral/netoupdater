@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Drop from "./Components/Drop/Drop";
 import Console from "./Components/Console/Console";
+import Reset from "./Components/Reset/Reset";
 import Table from "./Components/Table/Table";
 import ItemUpdate from "./Components/ItemUpdate";
 import ControlPanel from "./Components/ControlPanel/ControlPanel";
@@ -18,19 +19,29 @@ class App extends Component {
     this.parseFile = this.parseFile.bind(this);
     this.send = this.send.bind(this);
     this.receive = this.receive.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       tabled: [],
-      console: ["View output information here"],
+      console: ["Ready for document submission"],
       keyed: [],
       items: ["SKU", "Reorder Quantity"],
       itemValues: {},
       skus: [],
-      json: []
+      json: [],
+      files: [],
+      valueMethod: "increment"
     };
   }
 
-  onParse() {
-    var collection = this.state.keyed.map(obj => {
+  writeConsole(value) {
+    this.setState(previousState => ({
+      console: [...previousState.console, value]
+    }));
+  }
+
+  onParse(data) {
+    console.log(data);
+    var collection = data.map(obj => {
       return Object.keys(obj)
         .filter(key => {
           return this.state.items.includes(key);
@@ -39,91 +50,116 @@ class App extends Component {
           return { [key]: obj[key] };
         });
     });
-    collection.forEach(value => {
-      var eachNewItem = new ItemUpdate(
-        value[1].SKU,
-        value[0]["Reorder Quantity"]
-      );
-      console.log(eachNewItem);
-      this.setState(previousState => ({
-        json: [...previousState.json, eachNewItem],
-        skus: [...previousState.skus, value[1].SKU],
-        console: [
-          ...previousState.console,
-          "JSON object created: " + JSON.stringify(eachNewItem)
-        ]
-      }));
+    collection.forEach((value, index) => {
+      if (value[0]["Reorder Quantity"] !== "0") {
+        var eachNewItem = new ItemUpdate(
+          value[1].SKU,
+          value[0]["Reorder Quantity"],
+          this.state.valueMethod
+        );
+        console.log(eachNewItem);
+        this.setState(previousState => ({
+          json: [...previousState.json, eachNewItem],
+          skus: [...previousState.skus, value[1].SKU],
+          console: [
+            ...previousState.console,
+            "JSON object created: " + JSON.stringify(eachNewItem)
+          ]
+        }));
+      } else {
+        this.writeConsole(
+          "Item " +
+            (index + 1) +
+            " with SKU " +
+            value[1].SKU +
+            " skipped, reorder QTY is 0."
+        );
+      }
     });
   }
 
   onPreview() {
     if (this.state.json.length > 0) {
-      this.setState(previousState => ({
-        console: [
-          ...previousState.console,
-          "The following will be sent to server: " +
-            JSON.stringify(this.state.json)
-        ]
-      }));
+      this.writeConsole(
+        "The following will be sent to server: " +
+          JSON.stringify(this.state.json)
+      );
     } else {
-      this.setState(previousState => ({
-        console: [
-          ...previousState.console,
-          "No CSV file data has been parsed. Please upload a file and select Create JSON Objects"
-        ]
-      }));
+      this.writeConsole(
+        "No CSV file data has been parsed. Please upload a file before attempting update."
+      );
     }
     console.log(JSON.stringify(this.state.json));
+    console.log(this.state.valueMethod);
   }
 
   onClear() {
     this.setState(previousState => ({
       tabled: [],
-      console: ["View output information here"],
+      console: ["Ready for document submission"],
       keyed: [],
       items: ["SKU", "Reorder Quantity"],
       itemValues: {},
       skus: [],
-      json: []
+      json: [],
+      files: [],
+      valueMethod: "increment"
     }));
   }
 
   onDropped(acceptedFile) {
-    this.setState(previousState => ({
-      console: [
-        ...previousState.console,
-        [acceptedFile[0].name] + " successfully uploaded!"
-      ]
-    }));
-    console.log(acceptedFile[0].name + "woo!");
-    this.parseFile(acceptedFile);
+    if (!this.state.files.includes(acceptedFile[0].name)) {
+      this.parseFile(acceptedFile)
+        .then(response => {
+          this.writeConsole([acceptedFile[0].name] + " successfully uploaded!");
+        })
+        .then(response => {
+          this.setState(previousState => ({
+            files: [...previousState.files, acceptedFile[0].name]
+          }));
+          console.log(this.state.files);
+        })
+        .catch(response => {
+          this.writeConsole([acceptedFile[0].name] + " failed to be uploaded.");
+          console.log(response);
+        });
+    } else {
+      this.writeConsole(
+        [acceptedFile[0].name] +
+          " appears already to exist. Please upload a new file, or ensure all files are uniquely named."
+      );
+    }
   }
 
   onDropRejected(rejectedFile) {
-    this.setState(previousState => ({
-      console: [
-        ...previousState.console,
-        [rejectedFile[0].name] + " failed to be uploaded. Incorrect file type."
-      ]
-    }));
+    this.writeConsole(
+      [rejectedFile[0].name] + " failed to be uploaded. Incorrect file type."
+    );
   }
 
   parseFile(file) {
     Papa.parse(file[0], {
       header: true,
       complete: results => {
-        this.setState(previousState => ({
-          keyed: results.data
-        }));
+        this.data = [results.data];
+        this.setState(
+          {
+            keyed: results.data
+          },
+          this.onParse(results.data)
+        );
       }
     });
-    Papa.parse(file[0], {
-      header: false,
-      complete: results => {
-        this.setState(previousState => ({
-          tabled: results.data
-        }));
-      }
+    return new Promise(resolve => {
+      Papa.parse(file[0], {
+        header: false,
+        complete: results => {
+          this.setState({
+            tabled: results.data
+          });
+        }
+      });
+      resolve();
     });
   }
 
@@ -155,12 +191,9 @@ class App extends Component {
         });
     } else {
       console.log("no values");
-      this.setState(previousState => ({
-        console: [
-          ...previousState.console,
-          "No CSV file data has been parsed. Please upload a file and select Create JSON Objects"
-        ]
-      }));
+      this.writeConsole(
+        "No CSV file data has been parsed. Please upload a file before attempting update."
+      );
     }
   }
 
@@ -194,31 +227,36 @@ class App extends Component {
       });
   }
 
+  handleChange(option) {
+    this.setState(previousState => ({
+      valueMethod: option
+    }));
+  }
+
   render() {
     return (
       <div className="Home-body">
-        <div id="main">
-          <div id="left">
-            <h1>File upload</h1>
-            <Drop
-              onDropped={this.onDropped}
-              onDropRejected={this.onDropRejected}
-              console={this.state.console}
-            />
-            <Console console={this.state.console} />
-            <ControlPanel
-              hasdata={this.state.keyed.length}
-              onParse={this.onParse}
-              onPreview={this.onPreview}
-              send={this.send}
-              receive={this.receive}
-              onClear={this.onClear}
-            />
-          </div>
-          <div id="right">
-            <h1>CSV Preview</h1>
-            <Table tabled={this.state.tabled} keyed={this.state.keyed} />
-          </div>
+        <div id="left">
+          <h1>File upload</h1>
+          <Drop
+            onDropped={this.onDropped}
+            onDropRejected={this.onDropRejected}
+            console={this.state.console}
+          />
+          <ControlPanel
+            onParse={this.onParse}
+            onPreview={this.onPreview}
+            send={this.send}
+            receive={this.receive}
+            valueMethod={this.state.valueMethod}
+            handleChange={this.handleChange}
+          />
+          <Reset hasdata={this.state.keyed.length} onClear={this.onClear} />
+          <Console console={this.state.console} />
+        </div>
+        <div id="right">
+          <h1>CSV Preview</h1>
+          <Table tabled={this.state.tabled} keyed={this.state.keyed} />
         </div>
       </div>
     );

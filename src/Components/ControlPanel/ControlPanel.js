@@ -1,50 +1,31 @@
 import React, { Component } from "react";
+import { RadioGroup, Radio } from "react-radio-group";
 import "./ControlPanel.css";
 
 class ControlPanel extends Component {
   render() {
     return (
-      <div id="control-panel" className="left-box">
-        <h2>Instructions</h2>
-        <dl>
-          <dt>Step 1.</dt>
-          <dd>
-            Drag and drop a CSV file above, and confirm output contains 'SKU' and 'Reorder Quantity' fields (right).
-          </dd>
-          <dt>Step 2.</dt>
-          <dd>
-            Click
-            <button onClick={this.props.onParse}>
-              Create JSON objects
-            </button> to turn relevant data into JSON.
-          </dd>
-          <dt>Step 3. (opt.)</dt>
-          <dd>
-            Click to <button onClick={this.props.onPreview}>
-              Preview concatenated result before commit
-            </button>
-          </dd>
-          <dt>Step 4.</dt>
-          <dd>
-            Send the JSON values to the server by clicking
-            <button onClick={this.props.send}>Update new values</button>
-          </dd>
-          <dt>Step 5.</dt>
-          <dd>
-            Check that the values have increased by clicking <button
-              onClick={this.props.receive}
-            >
-              Download values
-            </button>. The results will be visible in the browser console.
-          </dd>
-        </dl>
-        <button
-          onClick={this.props.onClear}
-          id="clear-button"
-          className={this.props.hasdata > 0 ? "red" : ""}
-        >
-          RESET
+      <div id="control-panel">
+        <button onClick={this.props.onPreview} className="orange">
+          Preview API data before sending
         </button>
+        <button onClick={this.props.send} className="green">
+          Update stock levels
+        </button>
+        <button onClick={this.props.receive} className="blue">
+          Retrieve stock levels
+        </button>
+        <p className="small">API Update Action</p>
+        <RadioGroup
+          name="method"
+          selectedValue={this.props.valueMethod}
+          onChange={option => {
+            this.props.handleChange(option);
+          }}
+        >
+          <Radio value="increment" />Increment
+          <Radio value="set" />Set
+        </RadioGroup>
       </div>
     );
   }
