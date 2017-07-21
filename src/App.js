@@ -103,7 +103,8 @@ class App extends Component {
       skus: [],
       json: [],
       files: [],
-      valueMethod: "increment"
+      valueMethod: "increment",
+      inputValue: "Reorder Quantity"
     }));
   }
 
@@ -165,6 +166,7 @@ class App extends Component {
 
   send() {
     if (this.state.json.length > 0) {
+      var a = this;
       fetch(
         "https://cors-anywhere.herokuapp.com/" +
           "https://www.jetblackespresso.com.au/do/WS/NetoAPI",
@@ -184,6 +186,17 @@ class App extends Component {
           return response.json();
         })
         .then(function(json) {
+          a.writeConsole(
+            "Data has been sent to server and updated successfully."
+          );
+          a.writeConsole(
+            "The following items were updated: " +
+              json.Item
+                .map(item => {
+                  return item.SKU;
+                })
+                .join(", ")
+          );
           console.log("parsed json", json);
         })
         .catch(function(ex) {
@@ -198,6 +211,7 @@ class App extends Component {
   }
 
   receive() {
+    var a = this;
     fetch(
       "https://cors-anywhere.herokuapp.com/" +
         "https://www.jetblackespresso.com.au/do/WS/NetoAPI",
@@ -221,6 +235,20 @@ class App extends Component {
       })
       .then(function(json) {
         console.log("parsed json", json.Item);
+        a.writeConsole(
+          "Data retrieved: " +
+            json.Item
+              .map(item => {
+                let entry =
+                  "[" +
+                  item.SKU +
+                  " - " +
+                  item.WarehouseQuantity.Quantity +
+                  "]";
+                return entry;
+              })
+              .join(", ")
+        );
       })
       .catch(function(ex) {
         console.log("parsing failed", ex);
@@ -233,16 +261,23 @@ class App extends Component {
     }));
   }
 
+  handleType(event) {
+    this.setState({ inputValue: event.target.value });
+  }
+
   render() {
     return (
       <div className="Home-body">
         <div id="left">
           <h1>File upload</h1>
-          <Drop
-            onDropped={this.onDropped}
-            onDropRejected={this.onDropRejected}
-            console={this.state.console}
-          />
+          <div className="leftSub">
+            <Drop
+              onDropped={this.onDropped}
+              onDropRejected={this.onDropRejected}
+              console={this.state.console}
+            />
+            <Reset hasdata={this.state.keyed.length} onClear={this.onClear} />
+          </div>
           <ControlPanel
             onParse={this.onParse}
             onPreview={this.onPreview}
@@ -250,8 +285,9 @@ class App extends Component {
             receive={this.receive}
             valueMethod={this.state.valueMethod}
             handleChange={this.handleChange}
+            inputValue={this.state.inputValue}
+            handleType={this.handleType}
           />
-          <Reset hasdata={this.state.keyed.length} onClear={this.onClear} />
           <Console console={this.state.console} />
         </div>
         <div id="right">

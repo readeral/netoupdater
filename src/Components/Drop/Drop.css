@@ -1,6 +1,5 @@
 #dropzone {
-  width: 70%;
-  display: inline-block;
+  display: block;
 }
 
 .dropzone-colour {

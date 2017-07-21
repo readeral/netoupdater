@@ -6,15 +6,17 @@ class ControlPanel extends Component {
   render() {
     return (
       <div id="control-panel">
-        <button onClick={this.props.onPreview} className="orange">
-          Preview API data before sending
-        </button>
-        <button onClick={this.props.send} className="green">
-          Update stock levels
-        </button>
-        <button onClick={this.props.receive} className="blue">
-          Retrieve stock levels
-        </button>
+        <div id="button-group">
+          <button onClick={this.props.onPreview} className="orange">
+            Preview API data before sending
+          </button>
+          <button onClick={this.props.send} className="green">
+            Update stock levels
+          </button>
+          <button onClick={this.props.receive} className="blue">
+            Retrieve stock levels
+          </button>
+        </div>
         <p className="small">API Update Action</p>
         <RadioGroup
           name="method"
@@ -26,6 +28,7 @@ class ControlPanel extends Component {
           <Radio value="increment" />Increment
           <Radio value="set" />Set
         </RadioGroup>
+
       </div>
     );
   }

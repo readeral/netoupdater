@@ -4,10 +4,10 @@
   display: inline-block;
   vertical-align: top;
   margin: 0 0 10px 10px;
-  height: 110px;
+  height: 150px;
 }
 
-#control-panel button {
+#button-group button {
   width: 100%;
   height: 33.3%;
   border: 1px solid;
@@ -17,6 +17,11 @@
   text-decoration: none;
   display: inline-block;
   margin-bottom: 5px;
+}
+
+#button-group {
+  height: 110px;
+  margin-bottom: 20px;
 }
 
 #control-panel button .orange {
@@ -34,4 +39,8 @@
 .small {
   font-size: 11px;
   margin: 0;
+}
+
+label input {
+  width: 100%;
 }

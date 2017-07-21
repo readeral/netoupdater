@@ -12,3 +12,8 @@
   width: 58%;
   margin: 0 1% 0 1%;
 }
+
+.leftSub {
+width: 70%;
+display: inline-block;  
+}
