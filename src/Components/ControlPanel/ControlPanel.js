@@ -8,16 +8,20 @@ class ControlPanel extends Component {
     return (
       <div id="control-panel">
         <div id="button-group">
-          <button onClick={this.props.onPreview} className="orange">
+          <button
+            onClick={this.props.onPreview}
+            className="button"
+            id="preview-button"
+          >
             Preview API call
           </button>
           <button
             onClick={this.props.send}
-            className="green {this.props.active}"
+            className="button {this.props.active}"
           >
             {this.props.waiting.a === true ? <Loader /> : "Update quantity"}
           </button>
-          <button onClick={this.props.receive} className="blue">
+          <button onClick={this.props.receive} className="button">
             {this.props.waiting.b === true ? <Loader /> : "Get quantity"}
           </button>
         </div>

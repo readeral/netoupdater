@@ -1,12 +1,19 @@
 #error-console {
+  display: block;
+  margin: 10px 10px;
   color: #efefef;
   height: calc(100vh - 350px);
   overflow-y: scroll;
   background-color: #1f1f1f;
   padding: 0 10px 0 10px;
-  margin: 10px 0;
   word-wrap: break-word;
   font-family: "Courier New", Courier, monospace;
+}
+
+@media (min-width : 481px) {
+  #error-console {
+    margin: 10px 0;
+  }
 }
 
 #error-console::-webkit-scrollbar{

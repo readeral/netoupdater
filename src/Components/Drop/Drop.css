@@ -1,5 +1,13 @@
 #dropzone {
   display: block;
+  margin: 0 10px;
+  height: 118px;
+}
+
+@media (min-width : 481px) {
+  #dropzone {
+    margin: 0;
+  }
 }
 
 .dropzone-colour {
@@ -7,8 +15,9 @@
   background-color: #c8dadf;
   outline-offset: -10px;
   transition: outline-offset .15s ease-in-out, outline-color .15s ease-in-out, background-color .15s linear;
-      height: 80px;
-      padding: 20px;
+
+  height: 118px;
+      padding: 0px;
 }
 
 .active-colour {
@@ -26,8 +35,8 @@
 
 .boxIcon {
   width: 100%;
-  height: 70%;
-  padding-top: 2%;
+  height: 50%;
+  padding-top: 8%;
   fill: #92b0b3;
   display: block;
 }

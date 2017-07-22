@@ -14,7 +14,7 @@ class Reset extends Component {
       <button
         onClick={this.props.onClear}
         id="clear-button"
-        className={this.props.hasdata > 0 ? "red" : ""}
+        className={this.props.hasdata > 0 ? "button red" : "button-inactive"}
       >
         RESET
       </button>

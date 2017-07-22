@@ -1,0 +1,57 @@
+#method-field {
+  margin: 10px 10px 0 10px;
+}
+
+@media (min-width : 481px) {
+  #method-field {
+    margin: 10px 0 0 0;
+  }
+}
+
+label input {
+  width: 100%;
+}
+
+#method-field input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+}
+
+#method-field label {
+  display: inline-block;
+  width: calc(33% - 1px);
+  background-color: #e4e4e4;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  font-weight: normal;
+  text-align: center;
+  text-shadow: none;
+  padding: 8px 1px;
+  //border: 1px solid rgba(0, 0, 0, 0.2);
+  //box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+  transition:         all 0.1s ease-in-out;
+  text-transform: uppercase;
+  height: 14px;
+  vertical-align: middle;
+}
+
+#method-field label:hover {
+	cursor: pointer;
+}
+
+#method-field input:checked + label {
+  background-color: #3cba54;
+  box-shadow: none;
+}
+
+#method-field label:first-of-type {
+  border-radius: 2px 0 0 2px;
+}
+
+#method-field label:last-of-type {
+  border-radius: 0 2px 2px 0;
+}

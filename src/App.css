@@ -1,23 +1,86 @@
 #left {
   display: inline-block;
   vertical-align: top;
-  width: 38%;
-  margin: 0 1% 0 1%;
+  width: 100%;
   height: 100vh;
 }
 
 #right {
-  display: inline-block;
-  vertical-align: top;
-  width: 58%;
-  margin: 0 1% 0 1%;
+  display: none;
 }
 
 .leftSub {
-width: 68%;
-display: inline-block;
+  display: inline-block;
+  width: 100%;
+
 }
 
-button:hover {
-  	cursor: pointer;
+@media (min-width : 481px) {
+  .leftSub {
+    width: 68%;
+  }
+  #right {
+    display: inline-block;
+    vertical-align: top;
+    width: 58%;
+    margin: 0 1% 0 1%;
+  }
+  #left {
+    width: 38%;
+    margin: 0 1% 0 1%;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+.button {
+  text-align: center;
+  min-width: 88px;
+  font-size: 14px;
+  border-radius: 2px;
+  padding: 0 16px;
+  height: 36px;
+  border: none;
+  background-color: #4885ed;
+  color: white;
+  outline: none;
+}
+
+.button-inactive {
+  text-align: center;
+  min-width: 88px;
+  font-size: 14px;
+  border-radius: 2px;
+  padding: 0 16px;
+  height: 36px;
+  border: none;
+  background-color: #4885ed;
+  color: white;
+  outline: none;
+  cursor: default;
+}
+
+.dense {
+  font-size: 13px;
+  height: 32px;
+}
+
+.button.raised {
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.2s;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.button:hover{
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12), inset 0 0 0 99999px rgba(0,0,0,0.12);
+}
+
+.button-simple:hover{
+  box-shadow: inset 0 0 0 99999px rgba(0,0,0,0.12);
+}
+
+.button:active{
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
 }

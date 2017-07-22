@@ -1,17 +1,10 @@
 #clear-button {
   width: 100%;
-  height: 30px;
-  border: 1px solid grey;
-  background-color: white;
-  color: grey;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+  background-color: rgba(0,0,0,.12);
+  color: rgba(0,0,0,.26);
 }
 
 #clear-button.red {
-  border: 1px solid black;
-  background-color: #DC143C;
+  background-color: #db3236;
   color: white;
 }
