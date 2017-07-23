@@ -14,12 +14,16 @@ class MethodToggle extends Component {
         }}
       >
         <Radio value="increment" id="increment" />
-        <label htmlFor="increment" className="button-simple">Increment</label>
+        <label htmlFor="increment" className="button-simple label100">
+          Increment
+        </label>
 
         <Radio value="decrement" id="decrement" />
-        <label htmlFor="decrement" className="button-simple">Decrement</label>
+        <label htmlFor="decrement" className="button-simple label100">
+          Decrement
+        </label>
         <Radio value="set" id="set" />
-        <label htmlFor="set" className="button-simple">Set</label>
+        <label htmlFor="set" className="button-simple label100">Set</label>
       </RadioGroup>
     );
   }

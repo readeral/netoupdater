@@ -69,25 +69,6 @@ button {
   box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
 }
 
-#param-button {
-  min-width: 3%;
-  margin: 0 0 10px 10px;
-}
-
-#about-button {
-  min-width: 25%;
-  margin: 0 10px 10px 5px;
-}
-
-.desktop {
-  display: none;
-}
-
-.mobile {
-  display: inline-block;
-}
-
-
 @media (min-width : 481px) {
   .leftSub {
     width: 68%;
@@ -101,20 +82,5 @@ button {
   #left {
     width: 38%;
     margin: 0 1% 0 1%;
-  }
-  .desktop {
-    display: inline-block;
-  }
-  .mobile {
-    display: none;
-  }
-  #param-button {
-    min-width: 130px;
-    margin: 0 0 10px 0px;
-  }
-
-  #about-button {
-    min-width: auto;
-    margin: 0 10px 10px 5px;
   }
 }

@@ -9,6 +9,7 @@ import ItemUpdate from "./Components/ItemUpdate";
 import Parameters from "./Components/Parameters/Parameters";
 import ControlPanel from "./Components/ControlPanel/ControlPanel";
 import MethodToggle from "./Components/MethodToggle/MethodToggle";
+import MetaControls from "./Components/MetaControls/MetaControls";
 import Papa from "papaparse";
 
 class App extends Component {
@@ -198,9 +199,10 @@ class App extends Component {
       Papa.parse(file[0], {
         header: false,
         complete: results => {
-          this.setState({
-            tabled: results.data
-          });
+          this.setState(previousState => ({
+            tabled: [...previousState.tabled, results.data]
+          }));
+          console.log(this.state.tabled);
         }
       });
       resolve();
@@ -368,20 +370,12 @@ class App extends Component {
               onClear={this.onClear}
             />
           </div>
-          <button
-            id="param-button"
-            onClick={this.switchState}
-            className="button mobile"
-          >
-            {this.state.switch === true ? "Close" : "Parameters"}
-          </button>
-          <button
-            id="about-button"
-            onClick={this.handleAbout}
-            className="button mobile"
-          >
-            About
-          </button>
+          <MetaControls
+            switch={this.state.switch}
+            switchState={this.switchState}
+            handleAbout={this.handleAbout}
+            class="mobile"
+          />
           <div
             className={
               this.state.switch === true
@@ -405,24 +399,17 @@ class App extends Component {
               </div>
             </div>
           </div>
-          <button
-            id="param-button"
-            onClick={this.switchState}
-            className="button desktop"
-          >
-            {this.state.switch === true ? "Close" : "Parameters"}
-          </button>
-          <button
-            id="about-button"
-            onClick={this.handleAbout}
-            className="button desktop"
-          >
-            About
-          </button>
+          <MetaControls
+            switch={this.state.switch}
+            switchState={this.switchState}
+            handleAbout={this.handleAbout}
+            class="desktop"
+          />
         </div>
         <div id="right">
           <h2>CSV Preview</h2>
-          <Table tabled={this.state.tabled} keyed={this.state.keyed} />
+          <Table tabled={this.state.tabled} />
+
         </div>
       </div>
     );

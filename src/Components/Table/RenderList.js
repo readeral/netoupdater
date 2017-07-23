@@ -7,15 +7,6 @@ const RenderList = props => (
         {index === 0
           ? row.map((val, index) => <th key={index}>{val}</th>)
           : row.map((val, index) => <td key={index}>{val}</td>)}
-        <td>
-          <form>
-            <input
-              className="form-checkbox"
-              name={"n" + index}
-              type="checkbox"
-            />
-          </form>
-        </td>
       </tr>
     ))}
   </tbody>
