@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
+import "./flip.css";
 import "./elevation.css";
 import Drop from "./Components/Drop/Drop";
 import Console from "./Components/Console/Console";
 import Table from "./Components/Table/Table";
 import ItemUpdate from "./Components/ItemUpdate";
+import Parameters from "./Components/Parameters/Parameters";
 import ControlPanel from "./Components/ControlPanel/ControlPanel";
 import MethodToggle from "./Components/MethodToggle/MethodToggle";
 import Papa from "papaparse";
@@ -21,8 +23,12 @@ class App extends Component {
     this.send = this.send.bind(this);
     this.receive = this.receive.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.switchState = this.switchState.bind(this);
+    this.handleAbout = this.handleAbout.bind(this);
     this.state = {
       tabled: [],
+      switch: false,
       console: ["Ready for document submission"],
       keyed: [],
       items: ["SKU", "Reorder Quantity"],
@@ -30,9 +36,13 @@ class App extends Component {
       skus: [],
       json: [],
       files: [],
-      valueMethod: "increment",
       submitted: false,
-      waiting: { a: false, b: false }
+      waiting: { a: false, b: false },
+      url: "",
+      api: "",
+      string: "Reorder Quantity",
+      method: "increment",
+      valueMethod: "increment"
     };
   }
 
@@ -40,6 +50,21 @@ class App extends Component {
     this.setState(previousState => ({
       console: [...previousState.console, value]
     }));
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+    if (name === "string") {
+      this.setState({
+        items: ["SKU", value]
+      });
+    }
   }
 
   onParse(data) {
@@ -54,10 +79,10 @@ class App extends Component {
         });
     });
     collection.forEach((value, index) => {
-      if (value[0]["Reorder Quantity"] !== "0") {
+      if (value[0][this.state.string] !== "0") {
         var eachNewItem = new ItemUpdate(
           value[1].SKU,
-          value[0]["Reorder Quantity"],
+          value[0][this.state.string],
           this.state.valueMethod
         );
         console.log(eachNewItem);
@@ -104,13 +129,12 @@ class App extends Component {
       tabled: [],
       console: ["Ready for document submission"],
       keyed: [],
-      items: ["SKU", "Reorder Quantity"],
+      items: ["SKU", this.state.string],
       itemValues: {},
       skus: [],
       json: [],
       files: [],
-      valueMethod: "increment",
-      inputValue: "Reorder Quantity",
+      valueMethod: this.state.method,
       submitted: false,
       waiting: { a: false, b: false }
     }));
@@ -155,12 +179,19 @@ class App extends Component {
       header: true,
       complete: results => {
         this.data = [results.data];
-        this.setState(
-          {
-            keyed: results.data
-          },
-          this.onParse(results.data)
-        );
+        if (this.state.string in results.data[0]) {
+          this.setState(
+            {
+              keyed: results.data
+            },
+            this.onParse(results.data)
+          );
+        } else {
+          this.writeConsole(
+            [file[0].name] +
+              " does not include the specified quantity header. No JSON entries have been created for this file."
+          );
+        }
       }
     });
     return new Promise(resolve => {
@@ -182,12 +213,14 @@ class App extends Component {
       var a = this;
       fetch(
         "https://cors-anywhere.herokuapp.com/" +
-          "https://www.jetblackespresso.com.au/do/WS/NetoAPI",
+          "https://www." +
+          this.state.url +
+          "/do/WS/NetoAPI",
         {
           method: "POST",
           headers: {
             NETOAPI_ACTION: "UpdateItem",
-            NETOAPI_KEY: "7cFrlopIR9QC7tBjJOEiE3vbvLjPxJ4m",
+            NETOAPI_KEY: this.state.api,
             Accept: "application/json"
           },
           body: JSON.stringify({
@@ -232,12 +265,14 @@ class App extends Component {
       var a = this;
       fetch(
         "https://cors-anywhere.herokuapp.com/" +
-          "https://www.jetblackespresso.com.au/do/WS/NetoAPI",
+          "https://www." +
+          this.state.url +
+          "/do/WS/NetoAPI",
         {
           method: "POST",
           headers: {
             NETOAPI_ACTION: "GetItem",
-            NETOAPI_KEY: "7cFrlopIR9QC7tBjJOEiE3vbvLjPxJ4m",
+            NETOAPI_KEY: this.state.api,
             Accept: "application/json"
           },
           body: JSON.stringify({
@@ -292,12 +327,24 @@ class App extends Component {
     this.setState({ inputValue: event.target.value });
   }
 
+  handleAbout() {
+    this.writeConsole(
+      "Created by Alan Reader (github.com/readeral) of Jetblack Espresso (jetblackespresso.com.au) for Neto API integration testing"
+    );
+  }
+
+  switchState() {
+    this.setState({
+      switch: !this.state.switch
+    });
+  }
+
   render() {
     return (
       <div className="Home-body">
         <div id="left">
-          <h1>File submission</h1>
-          <div className="flipper">
+          <h1>Neto API stock updater</h1>
+          <div className="top">
             <div className="leftSub">
               <Drop
                 onDropped={this.onDropped}
@@ -321,10 +368,60 @@ class App extends Component {
               onClear={this.onClear}
             />
           </div>
-          <Console console={this.state.console} />
+          <button
+            id="param-button"
+            onClick={this.switchState}
+            className="button mobile"
+          >
+            {this.state.switch === true ? "Close" : "Parameters"}
+          </button>
+          <button
+            id="about-button"
+            onClick={this.handleAbout}
+            className="button mobile"
+          >
+            About
+          </button>
+          <div
+            className={
+              this.state.switch === true
+                ? "hover flip-container"
+                : "flip-container"
+            }
+          >
+            <div className="flipper">
+              <div className="front">
+                <Console console={this.state.console} />
+              </div>
+              <div className="back">
+                <Parameters
+                  handleInputChange={this.handleInputChange}
+                  url={this.state.url}
+                  api={this.state.api}
+                  string={this.state.string}
+                  method={this.state.method}
+                  value={this.state.items}
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            id="param-button"
+            onClick={this.switchState}
+            className="button desktop"
+          >
+            {this.state.switch === true ? "Close" : "Parameters"}
+          </button>
+          <button
+            id="about-button"
+            onClick={this.handleAbout}
+            className="button desktop"
+          >
+            About
+          </button>
         </div>
         <div id="right">
-          <h1>CSV Preview</h1>
+          <h2>CSV Preview</h2>
           <Table tabled={this.state.tabled} keyed={this.state.keyed} />
         </div>
       </div>

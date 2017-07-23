@@ -1,0 +1,27 @@
+#parameters {
+  width: calc(100% - 40px);
+  padding: 20px;
+}
+
+#parameters input {
+  padding: 10px 10px 10px 5px;
+  font-size: 16px;
+display: block;
+width: 300px;
+border: none;
+border-bottom: 1px solid #757575;
+background: none;
+  margin-bottom: 20px;
+}
+
+#parameters label {
+  font-weight:normal;
+  position:relative;
+  left:5px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+#parameters select {
+  margin-left: 20px;
+}
