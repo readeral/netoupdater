@@ -197,7 +197,7 @@ class App extends Component {
         header: false,
         complete: results => {
           this.setState(previousState => ({
-            tabled: [...previousState.tabled, results.data]
+            tabled: [results.data, ...previousState.tabled]
           }));
         }
       });

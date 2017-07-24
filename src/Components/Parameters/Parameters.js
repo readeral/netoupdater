@@ -17,10 +17,15 @@ class Parameters extends Component {
             />
           </label>
           <label>
-            API key<br />
-            (can be found/generated in Neto dashboard https://www.
-            {this.props.url.length === 0 ? "yoursite.com" : this.props.url}
-            /_cpanel/setup_wizard?id=api):
+            API key
+            (enter your URL above, and
+            {" "}
+            <a
+              href={`https://www.${this.props.url.length === 0 ? "yoursite.com" : this.props.url}/_cpanel/setup_wizard?id=api`}
+            >
+              {" "}click to visit Neto dashboard
+            </a>
+            ):
             <input
               name="api"
               value={this.props.api}
@@ -36,7 +41,7 @@ class Parameters extends Component {
             />
           </label>
           <label>
-            Default update method after reset:
+            Default update method after pressing reset button:
             <select
               defaultValue="increment"
               name="method"

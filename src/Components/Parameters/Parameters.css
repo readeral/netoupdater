@@ -23,5 +23,6 @@ background: none;
 }
 
 #parameters select {
-  margin-left: 20px;
+  display: block;
+  margin: 10px 0 0 5px;
 }
