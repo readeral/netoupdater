@@ -3,9 +3,6 @@ import { RadioGroup, Radio } from "react-radio-group";
 import "./MethodToggle.css";
 
 class MethodToggle extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <RadioGroup

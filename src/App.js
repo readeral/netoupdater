@@ -72,7 +72,6 @@ class App extends Component {
   }
 
   onParse(data) {
-    console.log(data);
     var collection = data.map(obj => {
       return Object.keys(obj)
         .filter(key => {
@@ -89,7 +88,6 @@ class App extends Component {
           value[0][this.state.string],
           this.state.valueMethod
         );
-        console.log(eachNewItem);
         this.setState(previousState => ({
           json: [...previousState.json, eachNewItem],
           skus: [...previousState.skus, value[1].SKU],
@@ -124,8 +122,6 @@ class App extends Component {
         "No CSV file data has been parsed. Please submit a file before attempting update."
       );
     }
-    console.log(JSON.stringify(this.state.json));
-    console.log(this.state.valueMethod);
   }
 
   onClear() {
@@ -156,13 +152,11 @@ class App extends Component {
           this.setState(previousState => ({
             files: [...previousState.files, acceptedFile[0].name]
           }));
-          console.log(this.state.files);
         })
         .catch(response => {
           this.writeConsole(
             [acceptedFile[0].name] + " failed to be submitted."
           );
-          console.log(response);
         });
     } else {
       this.writeConsole(
@@ -205,7 +199,6 @@ class App extends Component {
           this.setState(previousState => ({
             tabled: [...previousState.tabled, results.data]
           }));
-          console.log(this.state.tabled);
         }
       });
       resolve();
@@ -248,7 +241,6 @@ class App extends Component {
                 })
                 .join(", ")
           );
-          console.log("parsed json", json);
         })
         .then(function(response) {
           a.setState({ waiting: { a: false } });
@@ -257,7 +249,6 @@ class App extends Component {
           console.log("parsing failed", ex);
         });
     } else {
-      console.log("no values");
       this.writeConsole(
         "No CSV file data has been parsed. Please submit a file before attempting update."
       );
@@ -292,7 +283,6 @@ class App extends Component {
           return response.json();
         })
         .then(function(json) {
-          console.log("parsed json", json.Item);
           a.writeConsole(
             "Data retrieved: " +
               json.Item
@@ -315,7 +305,6 @@ class App extends Component {
           console.log("parsing failed", ex);
         });
     } else {
-      console.log("no values");
       this.writeConsole(
         "SKU values are required for retrieval. Please submit a file before attempting to retrieve existing stock levels."
       );

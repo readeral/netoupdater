@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import "./MetaControls.css";
 
 class MetaControls extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div id="meta-control" className={this.props.class}>
