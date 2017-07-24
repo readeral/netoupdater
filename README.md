@@ -1,6 +1,7 @@
 A drag and drop Neto API integration for handling CSV files, and updating stock levels for Neto SKUs.
 
-Build with ReactJS
+Built with ReactJS
+
 Dependencies: React Dropzone, React Radio Group, PapaParse
 
 Both development and production builds utilise <https://cors-anywhere.herokuapp.com/>, due to the changing nature of the target API URL. As such, it is subject to usage limits and not recommended as a permanent solution. It is recommended that for regular use, you fork this project and deploy on your own server, resolving CORS issues that way.
