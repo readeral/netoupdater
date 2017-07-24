@@ -23,6 +23,12 @@
   display: inline-block;
 }
 
+.link-button {
+  text-decoration: none;
+  padding: 11px;
+  display: none;
+}
+
 @media (min-width : 481px) {
   .desktop {
     display: inline-block;
@@ -43,5 +49,8 @@
   #empty-button {
     min-width: auto;
     margin: 0 10px 10px 0;
+  }
+  .link-button {
+    display: initial;
   }
 }

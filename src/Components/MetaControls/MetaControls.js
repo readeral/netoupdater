@@ -38,6 +38,18 @@ class MetaControls extends Component {
         >
           Clear Console
         </button>
+        <a
+          id="instructions-button"
+          href="https://github.com/readeral/netoupdater#goals"
+          target="_blank"
+          className={
+            this.props.active === true
+              ? "button button-blue link-button"
+              : "button button-inactive link-button"
+          }
+        >
+          Instructions
+        </a>
       </div>
     );
   }
