@@ -13,9 +13,9 @@ My aim has been to create something that would enable warehouse staff to drag an
 Currently there are a few limitations that need to be observed for use:
 -   The stock qty column must be the leftmost field of the CSV
 -   The stock qty field parameter must be set Case-Sensitively
--   There is no test/warning for lack of parameters present - the application just hangs, this is the first thing on my list to fix. One can easily click 'reset' to resolve the issue.
+-   There is no test/warning for lack of/partial parameters present - the application just hangs, this is the first thing on my list to fix. One can easily click 'reset' to resolve the issue and go in and set the parameters.
 -   There is presently no support for drag and drop of multiple files at once - however there is support for adding multiple files if dragged one at a time.
--   The application will allow resubmission of data if the 'Update Quantity' button is pressed twice before resetting.
+-   The application will allow resubmission of data if the 'Update Quantity' button is pressed a second time before resetting.
 
 ## Use:
 *Please read the limitations above before use.*
