@@ -1,14 +1,18 @@
 
 #param-button {
-  min-width: 3%;
-  margin: 0 0 10px 10px;
+  min-width: 20%;
+  margin: 0 10px 10px 10px;
 }
 
 #about-button {
-  min-width: 25%;
-  margin: 0 10px 10px 5px;
+  min-width: 20%;
+  margin: 0 10px 10px 0;
 }
 
+#empty-button {
+  min-width: 20%;
+  margin: 0 10px 10px 0;
+}
 
 
 .desktop {
@@ -28,11 +32,16 @@
   }
   #param-button {
     min-width: 130px;
-    margin: 0 0 10px 0px;
+    margin: 0 10px 10px 0;
   }
 
   #about-button {
     min-width: auto;
-    margin: 0 10px 10px 5px;
+    margin: 0 10px 10px 0;
+  }
+
+  #empty-button {
+    min-width: auto;
+    margin: 0 10px 10px 0;
   }
 }

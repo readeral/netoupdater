@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import "./flip.css";
 import "./elevation.css";
+import "./button.css";
 import Drop from "./Components/Drop/Drop";
 import Console from "./Components/Console/Console";
 import Table from "./Components/Table/Table";
@@ -27,6 +28,7 @@ class App extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.switchState = this.switchState.bind(this);
     this.handleAbout = this.handleAbout.bind(this);
+    this.handleClear = this.handleClear.bind(this);
     this.state = {
       tabled: [],
       switch: false,
@@ -43,7 +45,8 @@ class App extends Component {
       api: "",
       string: "Reorder Quantity",
       method: "increment",
-      valueMethod: "increment"
+      valueMethod: "increment",
+      active: true
     };
   }
 
@@ -325,8 +328,18 @@ class App extends Component {
     }));
   }
 
+  handleButtonState(key, value) {
+    this.setState(previousState => ({
+      [key]: value
+    }));
+  }
+
   handleType(event) {
     this.setState({ inputValue: event.target.value });
+  }
+
+  handleClear(event) {
+    this.setState({ console: ["Ready for document submission"] });
   }
 
   handleAbout() {
@@ -337,7 +350,8 @@ class App extends Component {
 
   switchState() {
     this.setState({
-      switch: !this.state.switch
+      switch: !this.state.switch,
+      active: !this.state.active
     });
   }
 
@@ -356,6 +370,7 @@ class App extends Component {
               <MethodToggle
                 valueMethod={this.state.valueMethod}
                 handleChange={this.handleChange}
+                active={this.state.active}
               />
             </div>
             <ControlPanel
@@ -368,12 +383,15 @@ class App extends Component {
               waiting={this.state.waiting}
               hasdata={this.state.keyed.length}
               onClear={this.onClear}
+              active={this.state.active}
             />
           </div>
           <MetaControls
             switch={this.state.switch}
             switchState={this.switchState}
             handleAbout={this.handleAbout}
+            handleClear={this.handleClear}
+            active={this.state.active}
             class="mobile"
           />
           <div
@@ -403,6 +421,9 @@ class App extends Component {
             switch={this.state.switch}
             switchState={this.switchState}
             handleAbout={this.handleAbout}
+            handleClear={this.handleClear}
+            active={this.state.active}
+            writeConsole={this.writeConsole}
             class="desktop"
           />
         </div>

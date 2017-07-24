@@ -3,6 +3,9 @@ import { RadioGroup, Radio } from "react-radio-group";
 import "./MethodToggle.css";
 
 class MethodToggle extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <RadioGroup
@@ -14,16 +17,39 @@ class MethodToggle extends Component {
         }}
       >
         <Radio value="increment" id="increment" />
-        <label htmlFor="increment" className="button-simple label100">
+        <label
+          htmlFor="increment"
+          className={
+            this.props.active === true
+              ? "button-simple label100"
+              : "button-simple label100 button-inactive"
+          }
+        >
           Increment
         </label>
 
         <Radio value="decrement" id="decrement" />
-        <label htmlFor="decrement" className="button-simple label100">
+        <label
+          htmlFor="decrement"
+          className={
+            this.props.active === true
+              ? "button-simple label100"
+              : "button-simple label100 button-inactive"
+          }
+        >
           Decrement
         </label>
         <Radio value="set" id="set" />
-        <label htmlFor="set" className="button-simple label100">Set</label>
+        <label
+          htmlFor="set"
+          className={
+            this.props.active === true
+              ? "button-simple label100"
+              : "button-simple label100 button-inactive"
+          }
+        >
+          Set
+        </label>
       </RadioGroup>
     );
   }

@@ -10,22 +10,39 @@ class ControlPanel extends Component {
         <div id="button-group">
           <button
             onClick={this.props.onPreview}
-            className="button"
+            className={
+              this.props.active === true
+                ? "button button-blue"
+                : "button button-inactive"
+            }
             id="preview-button"
           >
             Preview API call
           </button>
           <button
             onClick={this.props.send}
-            className="button {this.props.active}"
+            className={
+              this.props.active === true
+                ? "button button-blue"
+                : "button button-inactive"
+            }
           >
             {this.props.waiting.a === true ? <Loader /> : "Update quantity"}
           </button>
-          <button onClick={this.props.receive} className="button">
+          <button
+            onClick={this.props.receive}
+            className={
+              this.props.active === true
+                ? "button button-blue"
+                : "button button-inactive"
+            }
+          >
             {this.props.waiting.b === true ? <Loader /> : "Get quantity"}
           </button>
         </div>
-        <Reset hasdata={this.props.hasdata} onClear={this.props.onClear} />
+        <div id="reset-group">
+          <Reset hasdata={this.props.hasdata} onClear={this.props.onClear} />
+        </div>
       </div>
     );
   }

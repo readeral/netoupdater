@@ -12,7 +12,7 @@
 @media (min-width : 481px) {
   #control-panel {
     width: calc(32% - 10px);
-    margin: 0 0 10px 10px;
+    margin: 0 0 5px 10px;
   }
   #preview-button {
     display: block;
@@ -22,7 +22,6 @@
 #button-group .button {
   width: 100%;
 text-transform: uppercase;
-margin-bottom: 5px;
 }
 
 .small {

@@ -16,9 +16,7 @@
   background-color: #c8dadf;
   outline-offset: -10px;
   transition: outline-offset .15s ease-in-out, outline-color .15s ease-in-out, background-color .15s linear;
-
   height: 118px;
-      padding: 0px;
 }
 
 .active-colour {
