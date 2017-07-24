@@ -1,5 +1,7 @@
 A drag and drop Neto API integration for handling CSV files, and updating stock levels for Neto SKUs.
 
+Live application can be found here: <https://readeral.github.io/netoupload/>
+
 Built with ReactJS
 
 Dependencies: React Dropzone, React Radio Group, PapaParse
