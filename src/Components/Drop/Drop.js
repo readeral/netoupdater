@@ -7,7 +7,7 @@ class Drop extends Component {
     return (
       <div id="dropzone">
         <Dropzone
-          accept="text/csv"
+          accept="text/csv, application/vnd.ms-excel"
           onDrop={this.props.onDrop}
           onDropAccepted={this.props.onDropped}
           onDropRejected={this.props.onDropRejected}

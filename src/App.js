@@ -41,7 +41,7 @@ class App extends Component {
       method: "increment",
       valueMethod: "increment",
       active: true,
-      desktop: false
+      desktop: true
     };
   }
 
@@ -259,7 +259,8 @@ class App extends Component {
                 .map(item => {
                   return item.SKU;
                 })
-                .join(", ")
+                .join(", ") +
+              ". Click 'Get Quantity' to check updated values."
           );
         })
         .then(function(response) {
@@ -267,6 +268,12 @@ class App extends Component {
         })
         .catch(function(ex) {
           console.log("parsing failed", ex);
+          a.setState({ waiting: { b: false } });
+          a.writeConsole(
+            "Updating quantities failed. Please check that all your parameters have been set correctly."
+          );
+          var element = document.getElementById("error-console");
+          element.scrollIntoView({ block: "end", behavior: "smooth" });
         });
     } else {
       this.writeConsole(
@@ -323,6 +330,10 @@ class App extends Component {
         })
         .catch(function(ex) {
           console.log("parsing failed", ex);
+          a.setState({ waiting: { b: false } });
+          a.writeConsole(
+            "Getting quantities failed. Please check that all your parameters have been set correctly."
+          );
         });
     } else {
       this.writeConsole(

@@ -47,7 +47,7 @@ class Left extends Component {
             inputValue={this.props.inputValue}
             handleType={this.props.handleType}
             waiting={this.props.waiting}
-            hasdata={this.props.hasdata}
+            hasdata={this.props.files.length}
             onClear={this.props.onClear}
             switch={this.state.switch}
           />
