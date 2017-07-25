@@ -32,6 +32,7 @@ class App extends Component {
       skus: [],
       json: [],
       files: [],
+      fileerror: "",
       submitted: false,
       waiting: { a: false, b: false },
       url: "",
@@ -39,7 +40,8 @@ class App extends Component {
       string: "Reorder Quantity",
       method: "increment",
       valueMethod: "increment",
-      active: true
+      active: true,
+      desktop: false
     };
   }
 
@@ -128,6 +130,7 @@ class App extends Component {
       json: [],
       files: [],
       valueMethod: this.state.method,
+      fileerror: "",
       submitted: false,
       waiting: { a: false, b: false }
     }));
@@ -138,7 +141,8 @@ class App extends Component {
       this.parseFile(acceptedFile)
         .then(response => {
           this.writeConsole(
-            [acceptedFile[0].name] + " successfully submitted!"
+            [acceptedFile[0].name] +
+              ` successfully ${this.state.fileerror === acceptedFile[0].name ? "re" : ""}submitted!`
           );
         })
         .then(response => {
@@ -180,24 +184,45 @@ class App extends Component {
           );
         } else {
           this.writeConsole(
-            [file[0].name] +
-              " does not include the specified quantity header. No JSON entries have been created for this file."
+            "PARSING ERROR: " +
+              [file[0].name] +
+              ` does not include the specified quantity header. No JSON entries have been created for this file. Please ${this.state.desktop === true ? "check the preview on the right to determine the correct column name, then" : ""} use the 'parameter' button to rectify the issue.`
           );
+          this.setState(previousState => ({
+            files: previousState.files.filter(e => e !== file[0].name),
+            fileerror: file[0].name
+          }));
         }
       }
     });
-    return new Promise(resolve => {
-      Papa.parse(file[0], {
-        header: false,
-        skipEmptyLines: true,
-        complete: results => {
-          this.setState(previousState => ({
-            tabled: [results.data, ...previousState.tabled]
-          }));
-        }
+    console.log(file[0].name);
+    if (file[0].name !== this.state.fileerror) {
+      return new Promise(resolve => {
+        Papa.parse(file[0], {
+          header: false,
+          skipEmptyLines: true,
+          complete: results => {
+            this.setState(previousState => ({
+              tabled: [results.data, ...previousState.tabled]
+            }));
+          }
+        });
+        resolve();
       });
-      resolve();
-    });
+    } else {
+      return new Promise(resolve => {
+        Papa.parse(file[0], {
+          header: false,
+          skipEmptyLines: true,
+          complete: results => {
+            this.setState(previousState => ({
+              tabled: [results.data, ...previousState.tabled]
+            }));
+          }
+        });
+        resolve();
+      });
+    }
   }
 
   send() {

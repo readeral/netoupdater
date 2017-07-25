@@ -7,7 +7,9 @@ class Table extends Component {
     return (
       <div className="tab-content" id="table">
         <table id="cooltable">
-          {this.props.tabled.map((one, index) => <RenderList data={one} />)}
+          {this.props.tabled.map((one, index) => (
+            <RenderList key={index + "-tabled"} data={one} />
+          ))}
         </table>
       </div>
     );
