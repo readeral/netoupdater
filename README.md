@@ -1,6 +1,6 @@
 A drag and drop Neto API integration for handling CSV files, and updating stock levels for Neto SKUs.
 
-Live application can be found here: <https://readeral.github.io/netoupload/>
+Live application can be found here: <https://readeral.github.io/netoupdater/>
 
 Built with ReactJS
 
