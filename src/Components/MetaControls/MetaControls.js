@@ -9,7 +9,7 @@ class MetaControls extends Component {
           id="param-button"
           onClick={this.props.switchState}
           className={
-            this.props.active === true
+            this.props.switch === false
               ? "button button-blue"
               : "button button-green"
           }
@@ -20,7 +20,7 @@ class MetaControls extends Component {
           id="about-button"
           onClick={this.props.handleAbout}
           className={
-            this.props.active === true
+            this.props.switch === false
               ? "button button-blue"
               : "button button-inactive"
           }
@@ -31,7 +31,7 @@ class MetaControls extends Component {
           id="empty-button"
           onClick={this.props.handleClear}
           className={
-            this.props.active === true
+            this.props.switch === false
               ? "button button-blue"
               : "button button-inactive"
           }
@@ -44,7 +44,7 @@ class MetaControls extends Component {
           rel="noopener noreferrer"
           target="_blank"
           className={
-            this.props.active === true
+            this.props.switch === false
               ? "button button-blue link-button"
               : "button button-inactive link-button"
           }

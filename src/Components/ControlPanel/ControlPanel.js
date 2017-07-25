@@ -11,7 +11,7 @@ class ControlPanel extends Component {
           <button
             onClick={this.props.onPreview}
             className={
-              this.props.active === true
+              this.props.switch === false
                 ? "button button-blue"
                 : "button button-inactive"
             }
@@ -22,7 +22,7 @@ class ControlPanel extends Component {
           <button
             onClick={this.props.send}
             className={
-              this.props.active === true
+              this.props.switch === false
                 ? "button button-blue"
                 : "button button-inactive"
             }
@@ -32,7 +32,7 @@ class ControlPanel extends Component {
           <button
             onClick={this.props.receive}
             className={
-              this.props.active === true
+              this.props.switch === false
                 ? "button button-blue"
                 : "button button-inactive"
             }

@@ -1,0 +1,12 @@
+#right {
+  display: none;
+}
+
+@media (min-width : 481px) {
+  #right {
+    display: inline-block;
+    vertical-align: top;
+    width: 58%;
+    margin: 0 1% 0 1%;
+  }
+}

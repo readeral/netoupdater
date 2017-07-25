@@ -3,14 +3,9 @@ import "./App.css";
 import "./flip.css";
 import "./elevation.css";
 import "./button.css";
-import Drop from "./Components/Drop/Drop";
-import Console from "./Components/Console/Console";
-import Table from "./Components/Table/Table";
+import Right from "./Components/Right/Right";
+import Left from "./Components/Left/Left";
 import ItemUpdate from "./Components/ItemUpdate";
-import Parameters from "./Components/Parameters/Parameters";
-import ControlPanel from "./Components/ControlPanel/ControlPanel";
-import MethodToggle from "./Components/MethodToggle/MethodToggle";
-import MetaControls from "./Components/MetaControls/MetaControls";
 import Papa from "papaparse";
 
 class App extends Component {
@@ -26,12 +21,10 @@ class App extends Component {
     this.receive = this.receive.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.switchState = this.switchState.bind(this);
     this.handleAbout = this.handleAbout.bind(this);
     this.handleClear = this.handleClear.bind(this);
     this.state = {
       tabled: [],
-      switch: false,
       console: ["Ready for document submission"],
       keyed: [],
       items: ["SKU", "Reorder Quantity"],
@@ -175,6 +168,7 @@ class App extends Component {
   parseFile(file) {
     Papa.parse(file[0], {
       header: true,
+      skipEmptyLines: true,
       complete: results => {
         this.data = [results.data];
         if (this.state.string in results.data[0]) {
@@ -195,6 +189,7 @@ class App extends Component {
     return new Promise(resolve => {
       Papa.parse(file[0], {
         header: false,
+        skipEmptyLines: true,
         complete: results => {
           this.setState(previousState => ({
             tabled: [results.data, ...previousState.tabled]
@@ -317,12 +312,6 @@ class App extends Component {
     }));
   }
 
-  handleButtonState(key, value) {
-    this.setState(previousState => ({
-      [key]: value
-    }));
-  }
-
   handleType(event) {
     this.setState({ inputValue: event.target.value });
   }
@@ -337,90 +326,26 @@ class App extends Component {
     );
   }
 
-  switchState() {
-    this.setState({
-      switch: !this.state.switch,
-      active: !this.state.active
-    });
-  }
-
   render() {
     return (
       <div className="Home-body">
-        <div id="left">
-          <h1>Neto API stock updater</h1>
-          <div className="top">
-            <div className="leftSub">
-              <Drop
-                onDropped={this.onDropped}
-                onDropRejected={this.onDropRejected}
-                console={this.state.console}
-              />
-              <MethodToggle
-                valueMethod={this.state.valueMethod}
-                handleChange={this.handleChange}
-                active={this.state.active}
-              />
-            </div>
-            <ControlPanel
-              onParse={this.onParse}
-              onPreview={this.onPreview}
-              send={this.send}
-              receive={this.receive}
-              inputValue={this.state.inputValue}
-              handleType={this.handleType}
-              waiting={this.state.waiting}
-              hasdata={this.state.keyed.length}
-              onClear={this.onClear}
-              active={this.state.active}
-            />
-          </div>
-          <MetaControls
-            switch={this.state.switch}
-            switchState={this.switchState}
-            handleAbout={this.handleAbout}
-            handleClear={this.handleClear}
-            active={this.state.active}
-            class="mobile"
-          />
-          <div
-            className={
-              this.state.switch === true
-                ? "hover flip-container"
-                : "flip-container"
-            }
-          >
-            <div className="flipper">
-              <div className="front">
-                <Console console={this.state.console} />
-              </div>
-              <div className="back">
-                <Parameters
-                  handleInputChange={this.handleInputChange}
-                  url={this.state.url}
-                  api={this.state.api}
-                  string={this.state.string}
-                  method={this.state.method}
-                  value={this.state.items}
-                />
-              </div>
-            </div>
-          </div>
-          <MetaControls
-            switch={this.state.switch}
-            switchState={this.switchState}
-            handleAbout={this.handleAbout}
-            handleClear={this.handleClear}
-            active={this.state.active}
-            writeConsole={this.writeConsole}
-            class="desktop"
-          />
-        </div>
-        <div id="right">
-          <h2>CSV Preview</h2>
-          <Table tabled={this.state.tabled} />
-
-        </div>
+        <Left
+          onDropped={this.onDropped}
+          onDropRejected={this.onDropRejected}
+          handleChange={this.handleChange}
+          onPreview={this.onPreview}
+          onParse={this.onParse}
+          handleType={this.handleType}
+          onClear={this.onClear}
+          switchState={this.switchState}
+          handleAbout={this.handleAbout}
+          handleClear={this.handleClear}
+          send={this.send}
+          receive={this.receive}
+          handleInputChange={this.handleInputChange}
+          {...this.state}
+        />
+        <Right tabled={this.state.tabled} />
       </div>
     );
   }

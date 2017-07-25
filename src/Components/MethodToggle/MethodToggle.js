@@ -17,7 +17,7 @@ class MethodToggle extends Component {
         <label
           htmlFor="increment"
           className={
-            this.props.active === true
+            this.props.switch === false
               ? "button-simple label100"
               : "button-simple label100 button-inactive"
           }
@@ -29,7 +29,7 @@ class MethodToggle extends Component {
         <label
           htmlFor="decrement"
           className={
-            this.props.active === true
+            this.props.switch === false
               ? "button-simple label100"
               : "button-simple label100 button-inactive"
           }
@@ -40,7 +40,7 @@ class MethodToggle extends Component {
         <label
           htmlFor="set"
           className={
-            this.props.active === true
+            this.props.switch === false
               ? "button-simple label100"
               : "button-simple label100 button-inactive"
           }
