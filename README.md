@@ -18,11 +18,12 @@ My aim has been to create something that would enable warehouse staff to drag an
 
 ## Limitations to be observed:
 Currently there are a few limitations that need to be observed for use:
+-   The console currently does not 'track' with the updated data, meaning errors are not discoverable without scrolling first. This is my highest priority for fixing.
 -   The stock qty column must be the leftmost field of the CSV
 -   The stock qty field parameter must be set Case-Sensitively
--   There is no test/warning for lack of/partial parameters present - the application just hangs, this is the first thing on my list to fix. One can easily click 'reset' to resolve the issue and go in and set the parameters.
 -   There is presently no support for drag and drop of multiple files at once - however there is support for adding multiple files if dragged one at a time.
 -   The application will allow resubmission of data if the 'Update Quantity' button is pressed a second time before resetting.
+-   ~~There is no test/warning for lack of/partial parameters present~~ *fix implemented* - now you get a console error when clicking Update/Get with incorrect parameters.
 
 ## Use:
 *Please read the limitations above before use.*
