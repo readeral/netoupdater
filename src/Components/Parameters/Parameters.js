@@ -21,6 +21,8 @@ class Parameters extends Component {
             (enter your URL above, and
             {" "}
             <a
+              rel="noopener noreferrer"
+              target="_blank"
               href={`https://www.${this.props.url.length === 0 ? "yoursite.com" : this.props.url}/_cpanel/setup_wizard?id=api`}
             >
               {" "}click to visit Neto dashboard
