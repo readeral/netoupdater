@@ -11,6 +11,11 @@ Both development and production builds utilise <https://cors-anywhere.herokuapp.
 ## Goals:
 My aim has been to create something that would enable warehouse staff to drag and drop a CSV when the stock arrives (typically a 'restock alert report' file), and assuming everything ordered is delivered, to submit for  immediate updates of all stock in the file.
 
+## File Upload Requirements
+-   The application accepts only CSV files, with at least two columns, one 'SKU' column, and another column with stock values (it can be labelled however you like, just update the parameters in app to look for your column header)
+-   Presently the CSV file requires the stock column to be the first column
+-   The CSV can include more than these two columns, and will be safely ignored by the App.
+
 ## Limitations to be observed:
 Currently there are a few limitations that need to be observed for use:
 -   The stock qty column must be the leftmost field of the CSV

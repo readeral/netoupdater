@@ -41,6 +41,7 @@ class MetaControls extends Component {
         <a
           id="instructions-button"
           href="https://github.com/readeral/netoupdater#goals"
+          rel="noopener noreferrer"
           target="_blank"
           className={
             this.props.active === true
