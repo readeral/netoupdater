@@ -12,14 +12,14 @@ class Left extends Component {
     super(props);
     this.switchState = this.switchState.bind(this);
     this.state = {
-      switch: false
+      param: false
     };
   }
 
-  switchState() {
-    this.setState({
-      switch: !this.state.switch
-    });
+  switchState(key) {
+    this.setState(previousState => ({
+      [key]: !previousState[key]
+    }));
   }
 
   render() {
@@ -36,7 +36,7 @@ class Left extends Component {
             <MethodToggle
               valueMethod={this.props.valueMethod}
               handleChange={this.props.handleChange}
-              switch={this.state.switch}
+              param={this.state.param}
             />
           </div>
           <ControlPanel
@@ -49,11 +49,11 @@ class Left extends Component {
             waiting={this.props.waiting}
             hasdata={this.props.files.length}
             onClear={this.props.onClear}
-            switch={this.state.switch}
+            param={this.state.param}
           />
         </div>
         <MetaControls
-          switch={this.state.switch}
+          param={this.state.param}
           switchState={this.switchState}
           handleAbout={this.props.handleAbout}
           handleClear={this.props.handleClear}
@@ -61,7 +61,7 @@ class Left extends Component {
         />
         <div
           className={
-            this.state.switch === true
+            this.state.param === true
               ? "hover flip-container"
               : "flip-container"
           }
@@ -83,7 +83,7 @@ class Left extends Component {
           </div>
         </div>
         <MetaControls
-          switch={this.state.switch}
+          param={this.state.param}
           switchState={this.switchState}
           handleAbout={this.props.handleAbout}
           handleClear={this.props.handleClear}

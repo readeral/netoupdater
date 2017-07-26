@@ -69,23 +69,22 @@ class App extends Component {
   onParse(data) {
     var collection = data.map(obj => {
       return Object.keys(obj)
-        .filter(key => {
-          return this.state.items.includes(key);
-        })
-        .map(key => {
-          return { [key]: obj[key] };
-        });
+        .filter(key => this.state.items.includes(key))
+        .reduce((fin, key) => {
+          fin[key] = obj[key];
+          return fin;
+        }, {});
     });
     collection.forEach((value, index) => {
-      if (value[0][this.state.string] !== "0") {
+      if (value[this.state.string] !== "0") {
         var eachNewItem = new ItemUpdate(
-          value[1].SKU,
-          value[0][this.state.string],
+          value.SKU,
+          value[this.state.string],
           this.state.valueMethod
         );
         this.setState(previousState => ({
           json: [...previousState.json, eachNewItem],
-          skus: [...previousState.skus, value[1].SKU],
+          skus: [...previousState.skus, value.SKU],
           console: [
             ...previousState.console,
             "JSON object created: " + JSON.stringify(eachNewItem)
@@ -96,7 +95,7 @@ class App extends Component {
           "Item " +
             (index + 1) +
             " with SKU " +
-            value[1].SKU +
+            value.SKU +
             " skipped, reorder QTY is 0."
         );
       }
