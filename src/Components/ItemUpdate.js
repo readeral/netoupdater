@@ -5,7 +5,9 @@ class ItemUpdate {
       {
         WarehouseID: "1",
         Quantity: OrderAmount,
-        Action: Method
+        Action: Method,
+        PreOrderQuantity: "",
+        DateArrival: ""
       }
     ];
   }
