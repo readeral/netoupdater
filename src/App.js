@@ -313,13 +313,10 @@ class App extends Component {
             "Data retrieved: " +
               json.Item
                 .map(item => {
-                  let entry =
-                    "[" +
-                    item.SKU +
-                    " - " +
-                    item.WarehouseQuantity.Quantity +
-                    "]";
-                  return entry;
+                  let warehouseData = item.WarehouseQuantity.map(wh => (
+                   (wh.WarehouseID === "1") ? `Sydney: ${wh.Quantity}` : `Hobart: ${wh.Quantity}`
+                  )).join(", ")
+                  return `[ ${item.SKU} - ${warehouseData}]`
                 })
                 .join(", ")
           );
