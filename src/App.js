@@ -286,7 +286,7 @@ class App extends Component {
       this.setState({ waiting: { b: true } });
       var a = this;
       fetch(
-        "https://cors-anywhere.herokuapp.com/" +
+        "https://protected-everglades-30603.herokuapp.com/" +
           "https://www." +
           this.state.url +
           "/do/WS/NetoAPI",
